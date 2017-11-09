@@ -51,10 +51,6 @@ YASM_COPTS = DEFINES + ["-DPIC"]
 
 cc_library(
     name = "x265",
-    hdrs = [
-        "x265/source/x265.h",
-        "x265/source/x265_config.h",
-    ],
     srcs = [":asm"] + glob([
         "x265/source/common/*.h",
         "x265/source/*.h",
@@ -71,6 +67,10 @@ cc_library(
     ]) + [
         "x265/source/x265-extras.cpp",
     ],
+    hdrs = [
+        "x265/source/x265.h",
+        "x265/source/x265_config.h",
+    ],
     copts = CC_COPTS + [
         "-Ix265/source",
         "-Ix265/source/common",
@@ -81,16 +81,16 @@ cc_library(
         "-Iexternal/jonnrb_bazel_x265/x265/source/common",
         "-Iexternal/jonnrb_bazel_x265/x265/source/encoder",
     ],
-    visibility = ["//visibility:public"],
-    strip_include_prefix = "x265/source",
     linkstatic = 1,
+    strip_include_prefix = "x265/source",
+    visibility = ["//visibility:public"],
 )
 
 cc_library(
     name = "x265_isystem",
-    deps = [":x265"],
     includes = ["x265/source"],
     visibility = ["//visibility:public"],
+    deps = [":x265"],
 )
 
 yasm_library(
